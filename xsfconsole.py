@@ -1,5 +1,6 @@
 import socket
 import os, sys
+import time, datetime
 
 host=''
 port=''
@@ -13,14 +14,14 @@ def exploit():
               tcp4=socket.socket(socket.AF_INET, socket.SOCK_STREAM, 6)
               print('created the tcp/ip4 socket ........')
               print('binding the tcp/ip4 socket from host and port options ......')
-              tcp4.bind((host, port))
+              tcp4.bind((host, int(port)))
               print('bindet the tcp/ip4 socket from host and port options .....')
               tcp4.listen()
               print('hosting on '+host+' : '+port+' ...........')
               print('waiting the client connection .......')
               c, addr=tcp4.accept()
               print()
-              print('connection sucsess with '+add[0]+' : '+str(addr[1]))
+              print('connection sucsess with '+addr[0]+' : '+str(addr[1]))
               print('client socket is : '+c)
               print()
               print('starting the meterpreter .....')
@@ -50,7 +51,6 @@ def main():
        print('started the xsfconsole .......')
        print('start .....')
        print()
-       print('starting time is: '+time.ctime())
        print()
        while True:
               xsf=input('console > ')
@@ -62,7 +62,6 @@ def main():
                      print('show options')
                      print('use <module>')
                      print('mkfile <module> <name>')
-#                    print('banner')
                      print('time')
                      print('<console system command>')
                      print('exit')
@@ -90,6 +89,14 @@ def main():
                             continue
                      else:
                             continue
+              elif xsf=='show options' or xsf=='show info':
+                     print('showing .......')
+                     print()
+                     print('host => '+host)
+                     print('port => '+port)
+                     print('session => '+session)
+                     print()
+                     continue
               elif 'use ' in xsf:
                      print('importing the module ........')
                      _module=xsf.split()[-1]
@@ -111,19 +118,17 @@ def main():
                      print('exiting ......')
                      exit()
               else:
-                     print('command not found please try again .....')
+                     os.system(xsf)
                      pass
 def controle():
        try:
-              import time
+              import time, datetime
               import request, requests
               import subprocess as sp, numpy as np
               import console, tkinter
               import socketserver, http.server
               import __future__
-              from xsf.tools import *
-              from xsf.tools.core import *
-              main()                      #main function
+              main()
        except KeyboardInterrupt:
               pass
        except EOFError:
@@ -142,3 +147,7 @@ def controle():
               pass
        except ImportError:
               print('please install the current modules')
+
+if __name__=='__main__':
+       if sys.version_info > (3, 0):
+              controle()
