@@ -62,7 +62,7 @@ def main():
                      print('show options')
                      print('use <module>')
                      print('mkfile <module> <name>')
-                     print('banner')
+#                    print('banner')
                      print('time')
                      print('<console system command>')
                      print('exit')
@@ -76,18 +76,22 @@ def main():
                      if option=='host':
                             valule=xsf.split()[-1]
                             host=valule
+                            print('host => '+host)
                             continue
                      elif option=='port':
                             valule=xsf.split()[-1]
                             port=valule
+                            print('port => '+port)
                             continue
                      elif option=='session':
                             valule=xsf.split()[-1]
                             session=valule
+                            print('session => '+valule)
                             continue
                      else:
                             continue
               elif 'use ' in xsf:
+                     print('importing the module ........')
                      _module=xsf.split()[-1]
                      module.replace('modules','')
                      __import__(module)
@@ -98,6 +102,17 @@ def main():
                      _module=xsf.split()[-2]
                      module.replace('modules','')
                      copy_file(module, path)
+                     print('copied the file ....')
+                     continue
+              elif xsf=='time':
+                     print('time is: '+time.ctime())
+                     continue
+              elif xsf=='ecit' or xsf=='break' or xsf=='quit':
+                     print('exiting ......')
+                     exit()
+              else:
+                     print('command not found please try again .....')
+                     pass
 def controle():
        try:
               import time
@@ -115,6 +130,9 @@ def controle():
               pass
        except OSError:
               print('OSError: not supported error .........')
+              pass
+       except OverflowError:
+              print('overflow valule .......')
               pass
        except ConnectionRefusedError:
               print('connection refused error .........')
